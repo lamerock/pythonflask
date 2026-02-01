@@ -1,37 +1,41 @@
 {% extends "base.html" %}
 
-{% block title %}SUBMIT INQUIRY - NEXUS{% endblock %}
+{% block title %}Submit Inquiry - Inquiry Management System{% endblock %}
 
 {% block additional_styles %}
 <style>
     .inquiry-wrapper {
+        width: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
-        min-height: calc(100vh - 200px);
-        padding: 20px 0;
+        height: calc(100vh - 160px); /* center vertically accounting for navbar + footer */
+        padding: 20px;
+        box-sizing: border-box;
     }
 
     .inquiry-card {
         width: 100%;
         max-width: 600px;
         background: var(--card-bg);
-        border: 3px solid var(--primary-color);
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         padding: 40px;
-        box-shadow: 0 0 40px rgba(0, 255, 65, 0.4);
+        margin: 0 auto;
     }
 
     .inquiry-card h2 {
         margin-bottom: 10px;
         text-align: center;
+        border-bottom: none;
     }
 
     .inquiry-card .subtitle {
         text-align: center;
-        color: var(--accent-color);
+        color: var(--text-secondary);
         margin-bottom: 30px;
-        font-size: 0.9rem;
-        text-transform: uppercase;
+        font-size: 0.95rem;
     }
 
     .form-group {
@@ -52,41 +56,51 @@
     .button-group .btn {
         flex: 1;
     }
+
+    @media (max-width: 600px) {
+        .inquiry-card {
+            padding: 30px;
+        }
+
+        .button-group {
+            flex-direction: column;
+        }
+    }
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="inquiry-wrapper">
     <div class="inquiry-card">
-        <h2>SUBMIT INQUIRY</h2>
-        <p class="subtitle">Enter your details below</p>
+        <h2>Submit Your Inquiry</h2>
+        <p class="subtitle">Please provide your information below</p>
 
         <form method="POST" action="{{ url_for('add_record') }}">
             <div class="form-group">
                 <label for="txtName" class="form-label">
-                    <i class="fas fa-user-circle"></i> FULL NAME
+                    <i class="fas fa-user"></i> Full Name
                 </label>
                 <input type="text" class="form-control" id="txtName" name="txtName" required>
             </div>
             <div class="form-group">
                 <label for="txtEmail" class="form-label">
-                    <i class="fas fa-envelope"></i> EMAIL ADDRESS
+                    <i class="fas fa-envelope"></i> Email Address
                 </label>
                 <input type="email" class="form-control" id="txtEmail" name="txtEmail" required>
             </div>
             <div class="form-group">
                 <label for="txtInquiry" class="form-label">
-                    <i class="fas fa-comment-dots"></i> INQUIRY DETAILS
+                    <i class="fas fa-comment-dots"></i> Inquiry Details
                 </label>
-                <textarea class="form-control" id="txtInquiry" name="txtInquiry" required></textarea>
+                <textarea class="form-control" id="txtInquiry" name="txtInquiry" placeholder="Please describe your inquiry in detail..." required></textarea>
             </div>
 
             <div class="button-group">
                 <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-paper-plane"></i> TRANSMIT
+                    <i class="fas fa-paper-plane"></i> Submit
                 </button>
                 <a href="/" class="btn btn-secondary">
-                    <i class="fas fa-times"></i> CANCEL
+                    <i class="fas fa-times"></i> Cancel
                 </a>
             </div>
         </form>

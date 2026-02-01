@@ -1,36 +1,46 @@
 {% extends "base.html" %}
 
-{% block title %}INFORMATION - NEXUS{% endblock %}
+{% block title %}About - Inquiry Management System{% endblock %}
 
 {% block additional_styles %}
 <style>
+    .about-wrapper {
+        width: 100%;
+        padding: 40px 20px;
+    }
+
+    .about-container {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
     .about-header {
         text-align: center;
-        margin: 50px 0 40px 0;
+        margin-bottom: 40px;
     }
 
     .about-header h1 {
         font-size: 2.5rem;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
     }
 
     .about-header p {
-        color: var(--accent-color);
+        color: var(--text-secondary);
         font-size: 1.1rem;
     }
 
     .info-section {
         background: var(--card-bg);
-        border: 2px solid var(--primary-color);
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
         padding: 30px;
         margin-bottom: 20px;
-        box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         transition: all 0.3s ease;
     }
 
     .info-section:hover {
-        box-shadow: 0 0 30px rgba(0, 255, 65, 0.4);
-        border-color: var(--accent-color);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
     .info-section h3 {
@@ -39,12 +49,23 @@
         display: flex;
         align-items: center;
         gap: 10px;
+        border-bottom: none;
     }
 
     .info-section p {
         color: var(--text-secondary);
         line-height: 1.8;
         margin: 10px 0;
+    }
+
+    .info-section a {
+        color: var(--secondary-color);
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .info-section a:hover {
+        text-decoration: underline;
     }
 
     .feature-list {
@@ -55,12 +76,12 @@
     .feature-list li {
         color: var(--text-secondary);
         padding: 10px 0;
-        border-bottom: 1px solid rgba(0, 255, 65, 0.1);
+        border-bottom: 1px solid var(--border-color);
     }
 
     .feature-list li:before {
-        content: '▸ ';
-        color: var(--primary-color);
+        content: '✓ ';
+        color: var(--success-color);
         font-weight: bold;
         margin-right: 10px;
     }
@@ -68,44 +89,55 @@
     .feature-list li:last-child {
         border-bottom: none;
     }
+
+    @media (max-width: 768px) {
+        .about-header h1 {
+            font-size: 2rem;
+        }
+
+        .info-section {
+            padding: 20px;
+        }
+    }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="about-header">
-    <h1><i class="fas fa-info-circle"></i> ABOUT NEXUS</h1>
-    <p>Advanced Inquiry Management System</p>
-</div>
-
-<div class="row">
-    <div class="col-lg-8 mx-auto">
-        <div class="info-section">
-            <h3><i class="fas fa-building"></i> ABOUT US</h3>
-            <p>Welcome to NEXUS, a cyberpunk-inspired inquiry management system built with cutting-edge technology. We are dedicated to providing secure, efficient, and visually striking solutions for managing customer inquiries.</p>
-            <p>Our system combines sleek aesthetics with robust functionality, offering a unique experience in data management.</p>
+<div class="about-wrapper">
+    <div class="about-container">
+        <div class="about-header">
+            <h1><i class="fas fa-info-circle"></i> About NEXUS</h1>
+            <p>Professional Inquiry Management System</p>
         </div>
 
         <div class="info-section">
-            <h3><i class="fas fa-rocket"></i> OUR MISSION</h3>
-            <p>To revolutionize the way businesses handle customer inquiries by providing an intuitive, secure, and visually compelling platform that streamlines communication and data organization.</p>
+            <h3><i class="fas fa-building"></i> About Us</h3>
+            <p>NEXUS is a professional, business-grade inquiry management system designed to streamline customer communication and data organization. We provide a secure, reliable platform for managing inquiries with a focus on simplicity and efficiency.</p>
+            <p>Our system combines clean aesthetics with robust functionality, offering an intuitive experience for both customers and administrators.</p>
         </div>
 
         <div class="info-section">
-            <h3><i class="fas fa-star"></i> WHAT WE OFFER</h3>
+            <h3><i class="fas fa-rocket"></i> Our Mission</h3>
+            <p>To provide businesses with an efficient, secure, and user-friendly platform for managing customer inquiries. We believe in clear communication, data integrity, and professional service delivery.</p>
+        </div>
+
+        <div class="info-section">
+            <h3><i class="fas fa-star"></i> What We Offer</h3>
             <ul class="feature-list">
-                <li>Secure inquiry database with SQLite persistence</li>
+                <li>Secure inquiry database with persistent storage</li>
                 <li>Real-time inquiry tracking and management</li>
                 <li>User authentication and session management</li>
-                <li>Cyberpunk-themed user interface</li>
+                <li>Professional, intuitive user interface</li>
                 <li>Responsive design for all devices</li>
-                <li>Intuitive form submission system</li>
+                <li>Comprehensive inquiry submission system</li>
+                <li>Data analytics and inquiry statistics</li>
             </ul>
         </div>
 
         <div class="info-section">
-            <h3><i class="fas fa-headset"></i> GET IN TOUCH</h3>
-            <p>Have questions or want to submit an inquiry? <a href="/inquiry" style="color: var(--primary-color); text-decoration: underline;">Click here</a> to access our inquiry form.</p>
-            <p>Interested in admin access? <a href="/login" style="color: var(--primary-color); text-decoration: underline;">Log in here</a> with your credentials.</p>
+            <h3><i class="fas fa-headset"></i> Get in Touch</h3>
+            <p>Ready to submit an inquiry? <a href="/inquiry">Click here</a> to access our inquiry form.</p>
+            <p>Are you an administrator? <a href="/login">Log in here</a> with your credentials to access the dashboard.</p>
         </div>
     </div>
 </div>

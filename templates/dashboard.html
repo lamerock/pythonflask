@@ -1,116 +1,167 @@
 {% extends "base.html" %}
 
-{% block title %}DASHBOARD - NEXUS{% endblock %}
+{% block title %}Dashboard - Inquiry Management System{% endblock %}
 
 {% block additional_styles %}
 <style>
+    .dashboard-wrapper {
+        width: 100%;
+        padding: 40px 20px;
+    }
+
+    .dashboard-container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
     .dashboard-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin: 40px 0 30px 0;
+        margin-bottom: 30px;
         padding-bottom: 20px;
-        border-bottom: 3px solid var(--primary-color);
+        border-bottom: 2px solid var(--secondary-color);
+        flex-wrap: wrap;
+        gap: 20px;
     }
 
     .dashboard-header h1 {
         margin: 0;
+        border-bottom: none;
+        padding-bottom: 0;
     }
 
     .user-info {
-        color: var(--accent-color);
-        font-size: 0.9rem;
-        text-transform: uppercase;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--text-secondary);
+        font-weight: 500;
+        font-size: 0.95rem;
+    }
+
+    .user-info .badge {
+        background-color: var(--success-color);
     }
 
     .table-wrapper {
         background: var(--card-bg);
-        border: 2px solid var(--primary-color);
-        padding: 20px;
-        box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
-        border-radius: 0;
-        overflow-x: auto;
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+        margin-bottom: 20px;
     }
 
     .empty-state {
         text-align: center;
         padding: 60px 20px;
-        color: var(--accent-color);
+        color: var(--text-secondary);
     }
 
     .empty-state i {
         font-size: 3rem;
         margin-bottom: 20px;
-        opacity: 0.7;
+        opacity: 0.5;
+        color: var(--text-secondary);
     }
 
     .stat-card {
-        background: rgba(0, 255, 65, 0.1);
-        border: 2px solid var(--primary-color);
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
         padding: 20px;
         margin-bottom: 20px;
         text-align: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+    }
+
+    .stat-card:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
     .stat-number {
         font-size: 2.5rem;
-        color: var(--primary-color);
+        color: var(--secondary-color);
         margin-bottom: 10px;
+        font-weight: 600;
     }
 
     .stat-label {
         color: var(--text-secondary);
+        font-size: 0.95rem;
+        font-weight: 600;
         text-transform: uppercase;
-        font-size: 0.9rem;
+        letter-spacing: 0.5px;
+    }
+
+    @media (max-width: 768px) {
+        .dashboard-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .user-info {
+            width: 100%;
+        }
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="dashboard-header">
-    <h1><i class="fas fa-database"></i> INQUIRY DATABASE</h1>
-    <div class="user-info">
-        <i class="fas fa-user-check"></i> {{ session.get('username', 'USER') }} | ONLINE
-    </div>
-</div>
-
-<div class="row mb-4">
-    <div class="col-md-4">
-        <div class="stat-card">
-            <div class="stat-number">{{ data|length }}</div>
-            <div class="stat-label">Total Inquiries</div>
+<div class="dashboard-wrapper">
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h1><i class="fas fa-database"></i> Inquiry Dashboard</h1>
+            <div class="user-info">
+                <i class="fas fa-user-circle"></i> 
+                <span>{{ session.get('username', 'User') }}</span>
+                <span class="badge badge-success">Online</span>
+            </div>
         </div>
+
+        <div class="row mb-4">
+            <div class="col-md-4 mx-auto">
+                <div class="stat-card">
+                    <div class="stat-number">{{ data|length }}</div>
+                    <div class="stat-label">Total Inquiries</div>
+                </div>
+            </div>
+        </div>
+
+        {% if data %}
+        <div class="table-wrapper">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th><i class="fas fa-hashtag"></i> ID</th>
+                            <th><i class="fas fa-user"></i> Name</th>
+                            <th><i class="fas fa-envelope"></i> Email</th>
+                            <th><i class="fas fa-comment"></i> Inquiry</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for record in data %}
+                        <tr>
+                            <td>#{{ record[0] }}</td>
+                            <td>{{ record[1] }}</td>
+                            <td>{{ record[2] }}</td>
+                            <td style="max-width: 300px; word-wrap: break-word;">{{ record[3] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <i class="fas fa-inbox"></i>
+            <h3>No Data Available</h3>
+            <p>The inquiry database is currently empty.</p>
+        </div>
+        {% endif %}
     </div>
 </div>
-
-{% if data %}
-<div class="table-wrapper">
-    <table class="table">
-        <thead>
-            <tr>
-                <th><i class="fas fa-hashtag"></i> ID</th>
-                <th><i class="fas fa-user"></i> NAME</th>
-                <th><i class="fas fa-envelope"></i> EMAIL</th>
-                <th><i class="fas fa-comment"></i> INQUIRY</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for record in data %}
-            <tr>
-                <td>#{{ record[0] }}</td>
-                <td>{{ record[1] }}</td>
-                <td>{{ record[2] }}</td>
-                <td style="max-width: 300px; word-wrap: break-word;">{{ record[3] }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-{% else %}
-<div class="empty-state">
-    <i class="fas fa-inbox"></i>
-    <h3>NO DATA AVAILABLE</h3>
-    <p>The inquiry database is currently empty.</p>
-</div>
-{% endif %}
 {% endblock %}

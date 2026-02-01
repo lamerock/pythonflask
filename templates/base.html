@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Inquiry System{% endblock %}</title>
+    <title>{% block title %}Inquiry Management System{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -14,334 +14,294 @@
         }
 
         :root {
-            --primary-color: #00ff41;
-            --secondary-color: #ff006e;
-            --accent-color: #00d9ff;
-            --dark-bg: #0a0e27;
-            --darker-bg: #050812;
-            --card-bg: #1a1f3a;
-            --border-color: #00ff41;
-            --text-primary: #00ff41;
-            --text-secondary: #a0a9ff;
+            --primary-color: #003366;
+            --secondary-color: #0066cc;
+            --accent-color: #1a8cff;
+            --light-bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --border-color: #dee2e6;
+            --text-primary: #212529;
+            --text-secondary: #6c757d;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
         }
 
         body {
-            background: linear-gradient(135deg, var(--darker-bg) 0%, var(--dark-bg) 100%);
+            background-color: var(--light-bg);
             color: var(--text-primary);
-            font-family: 'Courier New', monospace;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             min-height: 100vh;
-            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                repeating-linear-gradient(
-                    0deg,
-                    rgba(0, 255, 65, 0.03) 0px,
-                    rgba(0, 255, 65, 0.03) 1px,
-                    transparent 1px,
-                    transparent 2px
-                );
-            pointer-events: none;
-            z-index: 1;
-            animation: scanlines 8s linear infinite;
-        }
-
-        @keyframes scanlines {
-            0% {
-                transform: translateY(0);
-            }
-            100% {
-                transform: translateY(10px);
-            }
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         /* Navbar Styling */
         .navbar {
-            background: linear-gradient(90deg, var(--darker-bg) 0%, var(--card-bg) 100%) !important;
-            border-bottom: 2px solid var(--primary-color);
-            box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
-            position: relative;
-            z-index: 10;
+            background-color: var(--primary-color);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .navbar-brand {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: var(--primary-color) !important;
-            text-shadow: 0 0 10px var(--primary-color);
-            letter-spacing: 2px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #ffffff !important;
+            letter-spacing: 0.5px;
         }
 
         .nav-link {
-            color: var(--text-secondary) !important;
-            margin: 0 10px;
-            position: relative;
+            color: rgba(255, 255, 255, 0.8) !important;
+            margin: 0 5px;
+            font-weight: 500;
             transition: all 0.3s ease;
         }
 
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--primary-color);
-            transition: width 0.3s ease;
-        }
-
         .nav-link:hover {
-            color: var(--primary-color) !important;
-            text-shadow: 0 0 10px var(--primary-color);
-        }
-
-        .nav-link:hover::after {
-            width: 100%;
+            color: #ffffff !important;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            padding: 8px 12px;
         }
 
         /* Container Styling */
         .container {
-            position: relative;
-            z-index: 2;
+            padding: 20px;
         }
 
         /* Alert Styling */
         .alert {
-            border: 2px solid;
-            border-radius: 0;
-            font-family: 'Courier New', monospace;
-            font-size: 0.95rem;
-            backdrop-filter: blur(10px);
+            border-radius: 4px;
+            border: 1px solid;
+            font-weight: 500;
         }
 
         .alert-success {
-            background-color: rgba(0, 255, 65, 0.1);
-            border-color: var(--primary-color);
-            color: var(--primary-color);
-            box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
         }
 
         .alert-danger {
-            background-color: rgba(255, 0, 110, 0.1);
-            border-color: var(--secondary-color);
-            color: var(--secondary-color);
-            box-shadow: 0 0 20px rgba(255, 0, 110, 0.3);
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
         }
 
         .alert-warning {
-            background-color: rgba(0, 217, 255, 0.1);
-            border-color: var(--accent-color);
-            color: var(--accent-color);
-            box-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
+            background-color: #fff3cd;
+            border-color: #ffeaa7;
+            color: #856404;
         }
 
         .alert-info {
-            background-color: rgba(0, 217, 255, 0.1);
-            border-color: var(--accent-color);
-            color: var(--accent-color);
-            box-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
-        }
-
-        .btn-close {
-            background-color: var(--primary-color);
-            opacity: 0.8;
+            background-color: #d1ecf1;
+            border-color: #bee5eb;
+            color: #0c5460;
         }
 
         /* Form Styling */
         .form-control, .form-select, textarea {
-            background-color: var(--card-bg);
-            border: 2px solid var(--primary-color);
-            color: var(--primary-color);
-            font-family: 'Courier New', monospace;
-            border-radius: 0;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 10px 12px;
+            font-size: 0.95rem;
             transition: all 0.3s ease;
-            box-shadow: inset 0 0 10px rgba(0, 255, 65, 0.1);
         }
 
         .form-control:focus, .form-select:focus, textarea:focus {
-            background-color: var(--card-bg);
-            border-color: var(--accent-color);
-            color: var(--accent-color);
-            box-shadow: 0 0 20px rgba(0, 217, 255, 0.5), inset 0 0 10px rgba(0, 217, 255, 0.1);
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 0.2rem rgba(0, 102, 204, 0.25);
+            background-color: #ffffff;
         }
 
         .form-label {
-            color: var(--text-secondary);
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.9rem;
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
         }
 
         /* Button Styling */
         .btn {
-            border-radius: 0;
-            font-family: 'Courier New', monospace;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border: 2px solid;
+            border-radius: 4px;
+            font-weight: 600;
+            padding: 10px 24px;
+            border: none;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: currentColor;
-            z-index: -1;
-            transition: left 0.3s ease;
+            text-transform: capitalize;
+            letter-spacing: 0.5px;
         }
 
         .btn-primary {
-            background-color: transparent;
-            border-color: var(--primary-color);
-            color: var(--primary-color);
-            box-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+            background-color: var(--secondary-color);
+            color: #ffffff;
         }
 
         .btn-primary:hover {
-            background-color: var(--primary-color);
-            color: var(--darker-bg);
-            box-shadow: 0 0 20px rgba(0, 255, 65, 0.6);
-            text-shadow: none;
+            background-color: #0052a3;
+            color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 102, 204, 0.3);
         }
 
         .btn-success {
-            background-color: transparent;
-            border-color: var(--accent-color);
-            color: var(--accent-color);
-            box-shadow: 0 0 10px rgba(0, 217, 255, 0.3);
+            background-color: var(--success-color);
+            color: #ffffff;
         }
 
         .btn-success:hover {
-            background-color: var(--accent-color);
-            color: var(--darker-bg);
-            box-shadow: 0 0 20px rgba(0, 217, 255, 0.6);
+            background-color: #218838;
+            color: #ffffff;
+            box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
         }
 
         .btn-secondary {
-            background-color: transparent;
-            border-color: var(--secondary-color);
-            color: var(--secondary-color);
-            box-shadow: 0 0 10px rgba(255, 0, 110, 0.3);
+            background-color: var(--text-secondary);
+            color: #ffffff;
         }
 
         .btn-secondary:hover {
-            background-color: var(--secondary-color);
-            color: var(--darker-bg);
-            box-shadow: 0 0 20px rgba(255, 0, 110, 0.6);
+            background-color: #5a6268;
+            color: #ffffff;
+            box-shadow: 0 4px 8px rgba(108, 117, 125, 0.3);
         }
 
         .btn-danger {
-            background-color: transparent;
-            border-color: var(--secondary-color);
-            color: var(--secondary-color);
-            box-shadow: 0 0 10px rgba(255, 0, 110, 0.3);
+            background-color: var(--danger-color);
+            color: #ffffff;
         }
 
         .btn-danger:hover {
-            background-color: var(--secondary-color);
-            color: var(--darker-bg);
-            box-shadow: 0 0 20px rgba(255, 0, 110, 0.6);
+            background-color: #c82333;
+            color: #ffffff;
+            box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
         }
 
         /* Card Styling */
         .card {
             background-color: var(--card-bg);
-            border: 2px solid var(--primary-color);
-            border-radius: 0;
-            box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
             transition: all 0.3s ease;
         }
 
         .card:hover {
-            box-shadow: 0 0 30px rgba(0, 255, 65, 0.4);
-            border-color: var(--accent-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         .card-header {
-            background-color: rgba(0, 255, 65, 0.1);
-            border-bottom: 2px solid var(--primary-color);
-            color: var(--primary-color);
+            background-color: var(--primary-color);
+            color: #ffffff;
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 600;
+        }
+
+        .card-body {
+            padding: 24px;
         }
 
         /* Table Styling */
         .table {
-            color: var(--primary-color);
-            border-color: var(--primary-color);
+            color: var(--text-primary);
+            border-color: var(--border-color);
         }
 
         .table thead {
-            border-bottom: 3px solid var(--primary-color);
+            background-color: var(--primary-color);
+            color: #ffffff;
         }
 
-        .table-dark {
-            background-color: var(--darker-bg);
-            color: var(--primary-color);
-            border-color: var(--primary-color);
+        .table thead th {
+            border-bottom: 2px solid var(--primary-color);
+            font-weight: 600;
+            padding: 12px;
         }
 
         .table tbody tr {
-            border-bottom: 1px solid rgba(0, 255, 65, 0.2);
             transition: all 0.3s ease;
+            border-bottom: 1px solid var(--border-color);
         }
 
         .table tbody tr:hover {
-            background-color: rgba(0, 255, 65, 0.1);
-            box-shadow: inset 0 0 10px rgba(0, 255, 65, 0.2);
+            background-color: var(--light-bg);
         }
 
-        .table-striped tbody tr:nth-of-type(odd) {
-            background-color: rgba(0, 255, 65, 0.05);
+        .table tbody td {
+            padding: 12px;
+            vertical-align: middle;
         }
 
         /* Heading Styling */
         h1, h2, h3, h4, h5, h6 {
             color: var(--primary-color);
-            text-shadow: 0 0 10px var(--primary-color);
-            text-transform: uppercase;
-            letter-spacing: 2px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            border-bottom: 3px solid var(--secondary-color);
+            padding-bottom: 15px;
+        }
+
+        h2 {
+            font-size: 2rem;
+        }
+
+        h3 {
+            font-size: 1.5rem;
         }
 
         .lead {
             color: var(--text-secondary);
+            font-size: 1.1rem;
         }
 
         /* Footer */
         footer {
-            border-top: 2px solid var(--primary-color);
-            padding: 20px 0;
-            margin-top: 50px;
+            background-color: var(--primary-color);
+            color: rgba(255, 255, 255, 0.8);
+            padding: 30px 0;
             text-align: center;
-            color: var(--text-secondary);
-            background: rgba(0, 0, 0, 0.3);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-weight: 500;
         }
 
-        /* Animations */
-        @keyframes glow {
-            0%, 100% {
-                text-shadow: 0 0 10px var(--primary-color);
-            }
-            50% {
-                text-shadow: 0 0 20px var(--primary-color);
-            }
+        footer p {
+            margin: 0;
         }
 
-        .glow {
-            animation: glow 2s ease-in-out infinite;
+        /* Utility Classes */
+        .text-muted {
+            color: var(--text-secondary) !important;
+        }
+
+        .badge {
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .badge-primary {
+            background-color: var(--secondary-color);
+            color: #ffffff;
+        }
+
+        .badge-success {
+            background-color: var(--success-color);
+            color: #ffffff;
+        }
+
+        .badge-danger {
+            background-color: var(--danger-color);
+            color: #ffffff;
         }
     </style>
     {% block additional_styles %}{% endblock %}
@@ -350,43 +310,45 @@
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="/">
-                <i class="fas fa-skull"></i> NEXUS SYSTEM
+                <i class="fas fa-inbox"></i> NEXUS INQUIRY SYSTEM
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="/">HOME</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/about">ABOUT</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/inquiry">INQUIRY</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/inquiry">Inquiry</a></li>
                     {% if session.get('user_logged_in') %}
-                    <li class="nav-item"><a class="nav-link" href="/logout">LOGOUT</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
                     {% else %}
-                    <li class="nav-item"><a class="nav-link" href="/login">LOGIN</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
                     {% endif %}
                 </ul>
             </div>
         </div>
     </nav>
 
-    <div class="container">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                <div class="alert alert-{{ category }} alert-dismissible fade show mt-4" role="alert">
-                    <strong>[{{ category.upper() }}]</strong> {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
+    <main>
+        <div class="container w-100">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show position-absolute top-0 start-50 translate-middle-x mt-3" role="alert" style="z-index: 1050; max-width: 500px;">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
 
-        {% block content %}{% endblock %}
-    </div>
+            {% block content %}{% endblock %}
+        </div>
+    </main>
 
-    <footer>
-        <p>&copy; 2026 NEXUS INQUIRY SYSTEM | All rights reserved</p>
+    <footer class="mt-auto">
+        <p>&copy; 2026 NEXUS Inquiry Management System. All rights reserved.</p>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
