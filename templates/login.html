@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block title %}ADMIN ACCESS - NEXUS{% endblock %}
+
+{% block additional_styles %}
+<style>
+    .login-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: calc(100vh - 200px);
+    }
+
+    .login-card {
+        width: 100%;
+        max-width: 500px;
+        background: var(--card-bg);
+        border: 3px solid var(--primary-color);
+        padding: 40px;
+        box-shadow: 0 0 40px rgba(0, 255, 65, 0.4);
+    }
+
+    .login-card h2 {
+        margin-bottom: 10px;
+        text-align: center;
+    }
+
+    .login-card .subtitle {
+        text-align: center;
+        color: var(--accent-color);
+        margin-bottom: 30px;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+    }
+
+    .credentials-box {
+        background-color: rgba(0, 255, 65, 0.05);
+        border: 2px solid var(--primary-color);
+        padding: 20px;
+        margin-bottom: 30px;
+        border-radius: 0;
+    }
+
+    .credentials-box h5 {
+        color: var(--primary-color);
+        margin-bottom: 15px;
+        font-size: 0.9rem;
+    }
+
+    .credentials-box p {
+        color: var(--text-secondary);
+        margin: 8px 0;
+        font-size: 0.9rem;
+        font-family: 'Courier New', monospace;
+    }
+
+    .credentials-box strong {
+        color: var(--accent-color);
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .login-footer {
+        text-align: center;
+        margin-top: 30px;
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+    }
+
+    .login-footer a {
+        color: var(--primary-color);
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .login-footer a:hover {
+        text-shadow: 0 0 10px var(--primary-color);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="login-wrapper">
+    <div class="login-card">
+        <h2>ADMIN ACCESS</h2>
+        <p class="subtitle">Enter your credentials to proceed</p>
+
+        <div class="credentials-box">
+            <h5><i class="fas fa-key"></i> SAMPLE CREDENTIALS</h5>
+            <p><strong>User 1:</strong> admin / admin123</p>
+            <p><strong>User 2:</strong> user / user123</p>
+        </div>
+
+        <form method="POST">
+            <div class="form-group">
+                <label for="username" class="form-label">
+                    <i class="fas fa-user"></i> USERNAME
+                </label>
+                <input type="text" class="form-control" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password" class="form-label">
+                    <i class="fas fa-lock"></i> PASSWORD
+                </label>
+                <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">
+                <i class="fas fa-sign-in-alt"></i> AUTHENTICATE
+            </button>
+        </form>
+
+        <div class="login-footer">
+            <p>No credentials? <a href="/">Return Home</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

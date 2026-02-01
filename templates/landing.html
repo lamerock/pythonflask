@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}NEXUS - Inquiry System{% endblock %}
+
+{% block additional_styles %}
+<style>
+    .hero-section {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: calc(100vh - 200px);
+        text-align: center;
+    }
+
+    .hero-content h1 {
+        font-size: 3.5rem;
+        margin-bottom: 20px;
+        animation: glow 2s ease-in-out infinite;
+    }
+
+    .hero-content p {
+        font-size: 1.3rem;
+        color: var(--accent-color);
+        margin-bottom: 40px;
+        text-shadow: 0 0 10px var(--accent-color);
+    }
+
+    .btn-group {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .btn-group .btn {
+        min-width: 200px;
+        padding: 12px 30px;
+        font-size: 1.1rem;
+    }
+
+    .terminal-text {
+        color: var(--primary-color);
+        font-family: 'Courier New', monospace;
+        font-size: 0.9rem;
+        margin-top: 60px;
+        padding: 20px;
+        border: 2px solid var(--primary-color);
+        background-color: rgba(0, 255, 65, 0.05);
+        border-radius: 0;
+    }
+
+    .terminal-text::before {
+        content: '> ';
+        color: var(--accent-color);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="hero-content">
+        <h1>⚡ NEXUS ⚡</h1>
+        <h2 style="color: var(--accent-color); font-size: 1.8rem; margin-bottom: 30px;">INQUIRY MANAGEMENT SYSTEM</h2>
+        <p>Enter the system. Submit your inquiry. Access the data.</p>
+        
+        <div class="btn-group">
+            <a href="/inquiry" class="btn btn-primary">
+                <i class="fas fa-send"></i> SUBMIT INQUIRY
+            </a>
+            <a href="/login" class="btn btn-success">
+                <i class="fas fa-sign-in-alt"></i> ADMIN ACCESS
+            </a>
+            <a href="/about" class="btn btn-secondary">
+                <i class="fas fa-info-circle"></i> INFORMATION
+            </a>
+        </div>
+
+        <div class="terminal-text">
+            SYSTEM ONLINE | READY FOR INPUT
+        </div>
+    </div>
+</div>
+{% endblock %}

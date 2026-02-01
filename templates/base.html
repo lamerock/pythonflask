@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Inquiry System{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #00ff41;
+            --secondary-color: #ff006e;
+            --accent-color: #00d9ff;
+            --dark-bg: #0a0e27;
+            --darker-bg: #050812;
+            --card-bg: #1a1f3a;
+            --border-color: #00ff41;
+            --text-primary: #00ff41;
+            --text-secondary: #a0a9ff;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--darker-bg) 0%, var(--dark-bg) 100%);
+            color: var(--text-primary);
+            font-family: 'Courier New', monospace;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                repeating-linear-gradient(
+                    0deg,
+                    rgba(0, 255, 65, 0.03) 0px,
+                    rgba(0, 255, 65, 0.03) 1px,
+                    transparent 1px,
+                    transparent 2px
+                );
+            pointer-events: none;
+            z-index: 1;
+            animation: scanlines 8s linear infinite;
+        }
+
+        @keyframes scanlines {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(10px);
+            }
+        }
+
+        /* Navbar Styling */
+        .navbar {
+            background: linear-gradient(90deg, var(--darker-bg) 0%, var(--card-bg) 100%) !important;
+            border-bottom: 2px solid var(--primary-color);
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+            position: relative;
+            z-index: 10;
+        }
+
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-color) !important;
+            text-shadow: 0 0 10px var(--primary-color);
+            letter-spacing: 2px;
+        }
+
+        .nav-link {
+            color: var(--text-secondary) !important;
+            margin: 0 10px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color) !important;
+            text-shadow: 0 0 10px var(--primary-color);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Container Styling */
+        .container {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Alert Styling */
+        .alert {
+            border: 2px solid;
+            border-radius: 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .alert-success {
+            background-color: rgba(0, 255, 65, 0.1);
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+        }
+
+        .alert-danger {
+            background-color: rgba(255, 0, 110, 0.1);
+            border-color: var(--secondary-color);
+            color: var(--secondary-color);
+            box-shadow: 0 0 20px rgba(255, 0, 110, 0.3);
+        }
+
+        .alert-warning {
+            background-color: rgba(0, 217, 255, 0.1);
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
+        }
+
+        .alert-info {
+            background-color: rgba(0, 217, 255, 0.1);
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
+        }
+
+        .btn-close {
+            background-color: var(--primary-color);
+            opacity: 0.8;
+        }
+
+        /* Form Styling */
+        .form-control, .form-select, textarea {
+            background-color: var(--card-bg);
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            font-family: 'Courier New', monospace;
+            border-radius: 0;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 0 10px rgba(0, 255, 65, 0.1);
+        }
+
+        .form-control:focus, .form-select:focus, textarea:focus {
+            background-color: var(--card-bg);
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.5), inset 0 0 10px rgba(0, 217, 255, 0.1);
+        }
+
+        .form-label {
+            color: var(--text-secondary);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        /* Button Styling */
+        .btn {
+            border-radius: 0;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 2px solid;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: currentColor;
+            z-index: -1;
+            transition: left 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: transparent;
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            box-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-color);
+            color: var(--darker-bg);
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.6);
+            text-shadow: none;
+        }
+
+        .btn-success {
+            background-color: transparent;
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+            box-shadow: 0 0 10px rgba(0, 217, 255, 0.3);
+        }
+
+        .btn-success:hover {
+            background-color: var(--accent-color);
+            color: var(--darker-bg);
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.6);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            border-color: var(--secondary-color);
+            color: var(--secondary-color);
+            box-shadow: 0 0 10px rgba(255, 0, 110, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--secondary-color);
+            color: var(--darker-bg);
+            box-shadow: 0 0 20px rgba(255, 0, 110, 0.6);
+        }
+
+        .btn-danger {
+            background-color: transparent;
+            border-color: var(--secondary-color);
+            color: var(--secondary-color);
+            box-shadow: 0 0 10px rgba(255, 0, 110, 0.3);
+        }
+
+        .btn-danger:hover {
+            background-color: var(--secondary-color);
+            color: var(--darker-bg);
+            box-shadow: 0 0 20px rgba(255, 0, 110, 0.6);
+        }
+
+        /* Card Styling */
+        .card {
+            background-color: var(--card-bg);
+            border: 2px solid var(--primary-color);
+            border-radius: 0;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.4);
+            border-color: var(--accent-color);
+        }
+
+        .card-header {
+            background-color: rgba(0, 255, 65, 0.1);
+            border-bottom: 2px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        /* Table Styling */
+        .table {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .table thead {
+            border-bottom: 3px solid var(--primary-color);
+        }
+
+        .table-dark {
+            background-color: var(--darker-bg);
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .table tbody tr {
+            border-bottom: 1px solid rgba(0, 255, 65, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .table tbody tr:hover {
+            background-color: rgba(0, 255, 65, 0.1);
+            box-shadow: inset 0 0 10px rgba(0, 255, 65, 0.2);
+        }
+
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: rgba(0, 255, 65, 0.05);
+        }
+
+        /* Heading Styling */
+        h1, h2, h3, h4, h5, h6 {
+            color: var(--primary-color);
+            text-shadow: 0 0 10px var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .lead {
+            color: var(--text-secondary);
+        }
+
+        /* Footer */
+        footer {
+            border-top: 2px solid var(--primary-color);
+            padding: 20px 0;
+            margin-top: 50px;
+            text-align: center;
+            color: var(--text-secondary);
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        /* Animations */
+        @keyframes glow {
+            0%, 100% {
+                text-shadow: 0 0 10px var(--primary-color);
+            }
+            50% {
+                text-shadow: 0 0 20px var(--primary-color);
+            }
+        }
+
+        .glow {
+            animation: glow 2s ease-in-out infinite;
+        }
+    </style>
+    {% block additional_styles %}{% endblock %}
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-skull"></i> NEXUS SYSTEM
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/">HOME</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/about">ABOUT</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/inquiry">INQUIRY</a></li>
+                    {% if session.get('user_logged_in') %}
+                    <li class="nav-item"><a class="nav-link" href="/logout">LOGOUT</a></li>
+                    {% else %}
+                    <li class="nav-item"><a class="nav-link" href="/login">LOGIN</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show mt-4" role="alert">
+                    <strong>[{{ category.upper() }}]</strong> {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer>
+        <p>&copy; 2026 NEXUS INQUIRY SYSTEM | All rights reserved</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

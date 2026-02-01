@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}SUBMIT INQUIRY - NEXUS{% endblock %}
+
+{% block additional_styles %}
+<style>
+    .inquiry-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: calc(100vh - 200px);
+        padding: 20px 0;
+    }
+
+    .inquiry-card {
+        width: 100%;
+        max-width: 600px;
+        background: var(--card-bg);
+        border: 3px solid var(--primary-color);
+        padding: 40px;
+        box-shadow: 0 0 40px rgba(0, 255, 65, 0.4);
+    }
+
+    .inquiry-card h2 {
+        margin-bottom: 10px;
+        text-align: center;
+    }
+
+    .inquiry-card .subtitle {
+        text-align: center;
+        color: var(--accent-color);
+        margin-bottom: 30px;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    textarea.form-control {
+        resize: vertical;
+        min-height: 120px;
+    }
+
+    .button-group {
+        display: flex;
+        gap: 10px;
+        margin-top: 30px;
+    }
+
+    .button-group .btn {
+        flex: 1;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="inquiry-wrapper">
+    <div class="inquiry-card">
+        <h2>SUBMIT INQUIRY</h2>
+        <p class="subtitle">Enter your details below</p>
+
+        <form method="POST" action="{{ url_for('add_record') }}">
+            <div class="form-group">
+                <label for="txtName" class="form-label">
+                    <i class="fas fa-user-circle"></i> FULL NAME
+                </label>
+                <input type="text" class="form-control" id="txtName" name="txtName" required>
+            </div>
+            <div class="form-group">
+                <label for="txtEmail" class="form-label">
+                    <i class="fas fa-envelope"></i> EMAIL ADDRESS
+                </label>
+                <input type="email" class="form-control" id="txtEmail" name="txtEmail" required>
+            </div>
+            <div class="form-group">
+                <label for="txtInquiry" class="form-label">
+                    <i class="fas fa-comment-dots"></i> INQUIRY DETAILS
+                </label>
+                <textarea class="form-control" id="txtInquiry" name="txtInquiry" required></textarea>
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-paper-plane"></i> TRANSMIT
+                </button>
+                <a href="/" class="btn btn-secondary">
+                    <i class="fas fa-times"></i> CANCEL
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
