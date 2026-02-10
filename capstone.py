@@ -27,14 +27,13 @@ def initDB():
 def seedUsers():
     connection = sqlite3.connect("database.db")
     _cursor = connection.cursor()
-    try:
-        admin_hash = generate_password_hash('admin123')
-        user_hash = generate_password_hash('user123')
-        _cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", ('admin', admin_hash))
-        _cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", ('user', user_hash))
-        connection.commit()
-    except sqlite3.IntegrityError:
-        pass
+    admin_hash = generate_password_hash('admin123')
+    user_hash = generate_password_hash('user123')
+    # Upsert admin
+    _cursor.execute("INSERT INTO users (username, password) VALUES (?, ?) ON CONFLICT(username) DO UPDATE SET password = excluded.password", ('admin', admin_hash))
+    # Upsert user
+    _cursor.execute("INSERT INTO users (username, password) VALUES (?, ?) ON CONFLICT(username) DO UPDATE SET password = excluded.password", ('user', user_hash))
+    connection.commit()
     _cursor.close()
     connection.close()
 
