@@ -75,29 +75,29 @@
         <h2>Submit Your Inquiry</h2>
         <p class="subtitle">Please provide your information below</p>
 
-        <form method="POST" action="{{ url_for('add_record') }}">
+        <form method="POST" action="{{ action_url if action_url else url_for('add_record') }}">
             <div class="form-group">
                 <label for="txtName" class="form-label">
                     <i class="fas fa-user"></i> Full Name
                 </label>
-                <input type="text" class="form-control" id="txtName" name="txtName" required>
+                <input type="text" class="form-control" id="txtName" name="txtName" required value="{{ name_value if name_value is defined else '' }}">
             </div>
             <div class="form-group">
                 <label for="txtEmail" class="form-label">
                     <i class="fas fa-envelope"></i> Email Address
                 </label>
-                <input type="email" class="form-control" id="txtEmail" name="txtEmail" required>
+                <input type="email" class="form-control" id="txtEmail" name="txtEmail" required value="{{ email_value if email_value is defined else '' }}">
             </div>
             <div class="form-group">
                 <label for="txtInquiry" class="form-label">
                     <i class="fas fa-comment-dots"></i> Inquiry Details
                 </label>
-                <textarea class="form-control" id="txtInquiry" name="txtInquiry" placeholder="Please describe your inquiry in detail..." required></textarea>
+                <textarea class="form-control" id="txtInquiry" name="txtInquiry" placeholder="Please describe your inquiry in detail..." required>{{ inquiry_value if inquiry_value is defined else '' }}</textarea>
             </div>
 
             <div class="button-group">
                 <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-paper-plane"></i> Submit
+                    <i class="fas fa-paper-plane"></i> {{ submit_label if submit_label is defined else 'Submit' }}
                 </button>
                 <a href="/" class="btn btn-secondary">
                     <i class="fas fa-times"></i> Cancel
