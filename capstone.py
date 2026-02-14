@@ -52,7 +52,6 @@ def verifyUser(username, password):
 
 ## Get all inquiries from database ##
 def getInquiries():
-    # legacy: return all inquiries
     connection = sqlite3.connect("database.db")
     _cursor = connection.cursor()
     _cursor.execute("SELECT * FROM inquiry")
@@ -62,16 +61,24 @@ def getInquiries():
     return data
 
 
-def getInquiriesFiltered(search=None, page=None, per_page=None):
+def getInquiriesFiltered(search=None, page=None, per_page=None, email_domain=None):
     connection = sqlite3.connect("database.db")
     _cursor = connection.cursor()
 
     params = []
-    where_clause = ""
+    where_clauses = []
     if search:
-        where_clause = "WHERE name LIKE ? OR email LIKE ? OR inquiry LIKE ?"
+        where_clauses.append("(name LIKE ? OR email LIKE ? OR inquiry LIKE ?)")
         like = f"%{search}%"
         params.extend([like, like, like])
+    if email_domain:
+        if email_domain == "other":
+            where_clauses.append("(email NOT LIKE ? AND email NOT LIKE ? AND email NOT LIKE ?)")
+            params.extend(["%@gmail.com", "%@yahoo.com", "%@outlook.com"])
+        else:
+            where_clauses.append("email LIKE ?")
+            params.append(f"%@{email_domain}")
+    where_clause = "WHERE " + " AND ".join(where_clauses) if where_clauses else ""
 
     # total count
     count_query = f"SELECT COUNT(*) FROM inquiry {where_clause}"
@@ -224,9 +231,10 @@ def dashboard():
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 10, type=int)
     q = request.args.get('q', None)
-    data, total = getInquiriesFiltered(search=q, page=page, per_page=per_page)
+    email_domain = request.args.get('email_domain', None)
+    data, total = getInquiriesFiltered(search=q, page=page, per_page=per_page, email_domain=email_domain)
     total_pages = (total + per_page - 1) // per_page if per_page else 1
-    return render_template('dashboard.html', data=data, page=page, per_page=per_page, total=total, total_pages=total_pages, q=q)
+    return render_template('dashboard.html', data=data, page=page, per_page=per_page, total=total, total_pages=total_pages, q=q, email_domain=email_domain)
 
 
 @app.route('/inquiry/<int:inquiry_id>/edit', methods=['GET'])
