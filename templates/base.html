@@ -322,6 +322,9 @@
                     <li class="nav-item"><a class="nav-link" href="/inquiry">Inquiry</a></li>
                     {% if session.get('user_logged_in') %}
                     <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+                    <li class="nav-item">
+                        <span class="nav-link fw-bold"><i class="fas fa-user-circle"></i> {{ session.get('username', 'User') }}</span>
+                    </li>
                     {% else %}
                     <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
                     {% endif %}

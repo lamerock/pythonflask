@@ -142,38 +142,33 @@
             <div class="header-left d-flex align-items-center mb-3 mb-md-0">
                 <h1 class="mb-0"><i class="fas fa-database"></i> Inquiry Dashboard</h1>
             </div>
-            <div class="header-middle flex-grow-1 mx-md-4 mb-3 mb-md-0">
-                <form method="get" class="d-flex flex-wrap gap-2" action="{{ url_for('dashboard') }}" aria-label="Search inquiries">
-                    <input type="text" name="q" class="form-control me-2" placeholder="Search name, email or inquiry" value="{{ q or '' }}" aria-label="Search">
-                    <button class="btn btn-primary me-2" type="submit">Search</button>
-                    <a class="btn btn-outline-secondary" href="{{ url_for('dashboard') }}">Clear</a>
-                </form>
+        </div>
+            <div class="header-right d-flex align-items-center justify-content-end">
+                <div class="stat-card mx-auto d-none d-md-block" style="max-width:320px;">
+                    <div class="stat-number">{{ total }}</div>
+                    <div class="stat-label">Total Inquiries</div>
+                </div>
             </div>
-            <div class="header-perpage d-flex align-items-center mb-3 mb-md-0">
-                <label for="perPageSelect" class="me-2 fw-bold">Rows per page:</label>
+        </div>
+        <div class="stat-card mb-4 mx-auto d-md-none" style="max-width:320px;">
+            <div class="stat-number">{{ total }}</div>
+            <div class="stat-label">Total Inquiries</div>
+        </div>
+
+        <!-- Single row search and filter above table -->
+        <div class="table-search-filter mb-3">
+            <form method="get" class="d-flex flex-row gap-2 align-items-center" action="{{ url_for('dashboard') }}" aria-label="Search inquiries">
+                <input type="text" name="q" class="form-control me-2" placeholder="Search name, email or inquiry" value="{{ q or '' }}" aria-label="Search">
+                <button class="btn btn-primary me-2" type="submit">Search</button>
+                <a class="btn btn-outline-secondary" href="{{ url_for('dashboard') }}">Clear</a>
+
                 <select id="perPageSelect" name="per_page" class="form-select" style="max-width:100px;" aria-label="Results per page">
                     <option value="5" {% if per_page == 5 %}selected{% endif %}>5</option>
                     <option value="10" {% if per_page == 10 %}selected{% endif %}>10</option>
                     <option value="25" {% if per_page == 25 %}selected{% endif %}>25</option>
                 </select>
-            </div>
-            </div>
-            <div class="header-right d-flex align-items-center justify-content-end">
-                <div class="stat-card me-3 d-none d-md-block">
-                    <div class="stat-number">{{ data|count }}</div>
-                    <div class="stat-label">Total Inquiries</div>
-                </div>
-                <a href="{{ url_for('inquiry') }}" class="btn btn-success me-3">New Inquiry</a>
-                <div class="user-info">
-                    <i class="fas fa-user-circle"></i>
-                    <span class="ms-1">{{ session.get('username', 'User') }}</span>
-                    <span class="badge badge-success ms-2">Online</span>
-                </div>
-            </div>
-        </div>
-        <div class="stat-card mb-4 d-md-none">
-            <div class="stat-number">{{ data|count }}</div>
-            <div class="stat-label">Total Inquiries</div>
+
+            </form>
         </div>
 
         {% if data %}
