@@ -143,23 +143,20 @@
                 <h1 class="mb-0"><i class="fas fa-database"></i> Inquiry Dashboard</h1>
             </div>
             <div class="header-middle flex-grow-1 mx-md-4 mb-3 mb-md-0">
-                <form method="get" class="d-flex flex-wrap gap-2" action="{{ url_for('dashboard') }}" aria-label="Search and filter inquiries">
+                <form method="get" class="d-flex flex-wrap gap-2" action="{{ url_for('dashboard') }}" aria-label="Search inquiries">
                     <input type="text" name="q" class="form-control me-2" placeholder="Search name, email or inquiry" value="{{ q or '' }}" aria-label="Search">
-                    <select name="email_domain" class="form-select me-2" style="max-width:160px;" aria-label="Filter by email domain">
-                        <option value="">All Domains</option>
-                        <option value="gmail.com" {% if email_domain == 'gmail.com' %}selected{% endif %}>Gmail</option>
-                        <option value="yahoo.com" {% if email_domain == 'yahoo.com' %}selected{% endif %}>Yahoo</option>
-                        <option value="outlook.com" {% if email_domain == 'outlook.com' %}selected{% endif %}>Outlook</option>
-                        <option value="other" {% if email_domain == 'other' %}selected{% endif %}>Other</option>
-                    </select>
-                    <select name="per_page" class="form-select me-2" style="max-width:100px;" aria-label="Results per page">
-                        <option value="5" {% if per_page == 5 %}selected{% endif %}>5</option>
-                        <option value="10" {% if per_page == 10 %}selected{% endif %}>10</option>
-                        <option value="25" {% if per_page == 25 %}selected{% endif %}>25</option>
-                    </select>
                     <button class="btn btn-primary me-2" type="submit">Search</button>
                     <a class="btn btn-outline-secondary" href="{{ url_for('dashboard') }}">Clear</a>
                 </form>
+            </div>
+            <div class="header-perpage d-flex align-items-center mb-3 mb-md-0">
+                <label for="perPageSelect" class="me-2 fw-bold">Rows per page:</label>
+                <select id="perPageSelect" name="per_page" class="form-select" style="max-width:100px;" aria-label="Results per page">
+                    <option value="5" {% if per_page == 5 %}selected{% endif %}>5</option>
+                    <option value="10" {% if per_page == 10 %}selected{% endif %}>10</option>
+                    <option value="25" {% if per_page == 25 %}selected{% endif %}>25</option>
+                </select>
+            </div>
             </div>
             <div class="header-right d-flex align-items-center justify-content-end">
                 <div class="stat-card me-3 d-none d-md-block">
@@ -280,19 +277,28 @@
 
 {% block scripts %}
 <script>
-        var inquiryModal = document.getElementById('inquiryModal')
-        inquiryModal.addEventListener('show.bs.modal', function (event) {
-            var button = event.relatedTarget
-            var id = button.getAttribute('data-id')
-            var name = button.getAttribute('data-name')
-            var email = button.getAttribute('data-email')
-            var inquiry = button.getAttribute('data-inquiry')
+    var inquiryModal = document.getElementById('inquiryModal');
+    inquiryModal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget;
+        var id = button.getAttribute('data-id');
+        var name = button.getAttribute('data-name');
+        var email = button.getAttribute('data-email');
+        var inquiry = button.getAttribute('data-inquiry');
 
-            document.getElementById('modal-id').textContent = id
-            document.getElementById('modal-name').textContent = name
-            document.getElementById('modal-email').textContent = email
-            document.getElementById('modal-inquiry').textContent = inquiry
-        })
+        document.getElementById('modal-id').textContent = id;
+        document.getElementById('modal-name').textContent = name;
+        document.getElementById('modal-email').textContent = email;
+        document.getElementById('modal-inquiry').textContent = inquiry;
+    });
+
+    // Auto-update table when per_page changes
+    document.getElementById('perPageSelect').addEventListener('change', function() {
+        const perPage = this.value;
+        const url = new URL(window.location.href);
+        url.searchParams.set('per_page', perPage);
+        url.searchParams.set('page', 1); // Reset to first page
+        window.location.href = url.toString();
+    });
 </script>
 {% endblock %}
 {% endblock %}
